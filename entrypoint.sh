@@ -44,6 +44,7 @@ if [ "$1" = 'rsync_server' ]; then
         secrets file = /etc/rsyncd.secrets
 EOF
 
+    exec rm /var/run/rsyncd.pid
     exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf "$@"
 fi
 
