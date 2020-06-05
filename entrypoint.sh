@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+touch /var/run/rsyncd.pid && rm /var/run/rsyncd.pid
+
 if [ ! -z "${WAIT_INT}" ]; then
   /usr/bin/pipework --wait -i ${WAIT_INT}
 fi
@@ -43,8 +45,7 @@ if [ "$1" = 'rsync_server' ]; then
         auth users = ${USERNAME}
         secrets file = /etc/rsyncd.secrets
 EOF
-
-    exec rm /var/run/rsyncd.pid 2>/dev/null
+    
     exec /usr/bin/rsync --no-detach --daemon --config /etc/rsyncd.conf "$@"
 fi
 
